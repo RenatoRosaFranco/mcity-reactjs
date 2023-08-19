@@ -1,10 +1,14 @@
 import React, { useState } from 'react';
+import { firebase } from '../../config/firebase';
+
 import { CircularProgress } from '@material-ui/core';
 import { Redirect } from 'react-router-dom';
+
 import { useFormik } from 'formik';
 import * as Yup from 'yup';
+import { PinDropSharp } from '@material-ui/icons';
 
-const Login = () => {
+const Login = (props) => {
   const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
@@ -20,17 +24,30 @@ const Login = () => {
                    .required('The password is required')
 
     }),
-    onSubmit: (value) => {
+    onSubmit: (values) => {
       setLoading(true);
-      console.log(value);
+      submitForm(values);
     }
   })
+
+  const submitForm = (values) => {
+    firebase.auth()
+    .signInWithEmailAndPassword(
+      values.email,
+      values.password
+    ).then(() =>{
+      props.history.push('/dashboard');
+    }).catch(error => {
+      setLoading(false);
+      alert(error);
+    });
+  }
 
   return(
     <div className="container">
       <div className="signin_wrapper" style={{margin: '100px'}}>
 
-        <form onSubmit={ formik.handleSubmit }>
+        <form onSubmit={formik.handleSubmit}>
           <h2>Please Login</h2>
         
           <input 
