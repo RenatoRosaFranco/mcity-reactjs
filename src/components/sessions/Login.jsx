@@ -8,13 +8,15 @@ import { useFormik } from 'formik';
 import * as Yup from 'yup';
 import { PinDropSharp } from '@material-ui/icons';
 
+import { showErrorToast, showSuccessToast } from './../../utils/Toast';
+
 const Login = (props) => {
   const [loading, setLoading] = useState(false);
 
   const formik = useFormik({
     initialValues: {
-      email: '',
-      password: ''
+      email: 'renato_ny@live.com',
+      password: '!Test123'
     },
     validationSchema: Yup.object({
       email: Yup.string()
@@ -36,10 +38,11 @@ const Login = (props) => {
       values.email,
       values.password
     ).then(() =>{
+      showSuccessToast('Welcome back!!');
       props.history.push('/dashboard');
     }).catch(error => {
       setLoading(false);
-      alert(error);
+      showErrorToast(error.message);
     });
   }
 
@@ -52,7 +55,7 @@ const Login = (props) => {
         
           <input 
             name="email"
-            placeholder="email"
+            placeholder="enter your email"
             onChange={formik.handleChange}
             onBlur={formik.handleBlur}
             value={formik.values.email}
@@ -65,7 +68,7 @@ const Login = (props) => {
           : null }
 
           <input
-            name="password"
+            name="enter your password"
             type="password"
             placeholder="password"
             onChange={formik.handleChange}

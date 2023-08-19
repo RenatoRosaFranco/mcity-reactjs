@@ -1,19 +1,17 @@
 import React from 'react';
-import ReactDOM from 'react-dom/client';
-import AppRoutes from './routes';
+import ReactDOM from 'react-dom';
 import './resources/css/app.css';
 
-import { firebase } from './config/firebase'
+import { firebase } from './config/firebase';
+import AppRoutes from './routes';
 
 const App = (props) => {
   return(
     <AppRoutes {...props} />
-  )
+  );
 }
 
-firebase.auth().onAuthStateChange((user) => {
-  ReactDOM.render(
-    <App user={user} />,
-    document.getElementById('root')
-  )
+firebase.auth().onAuthStateChanged((user) =>{
+  ReactDOM.render(<App user={user}/>,
+  document.getElementById('root'));
 });

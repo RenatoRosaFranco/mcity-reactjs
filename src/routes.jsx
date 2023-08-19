@@ -1,25 +1,25 @@
 import React from 'react';
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { Switch, Route, BrowserRouter } from 'react-router-dom';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
-// Layout
 import Header from './components/layouts/Header';
 import Footer from './components/layouts/Footer';
+import Home   from './components/home/Index';
+import Login  from './components/sessions/Login';
 
-// Components
-import Login from './components/sessions/Login';
-import Home from './components/home/Index';
-
-const AppRoutes = (props) => {
+const AppRoutes = ({user}) => {
   return(
     <BrowserRouter>
-      <Header />
-      <Routes>
-        <Route path='/login' element={<Login/>} />
-        <Route path='/' element={<Home/>} />
-      </Routes>
+      <Header user={user}/>
+      <Switch>
+        <Route path='/login' exact component={Login} />
+        <Route path='/' exact component={Home} />
+      </Switch>
+      <ToastContainer />
       <Footer/>
     </BrowserRouter>
-  )
+  );
 }
 
 export default AppRoutes;
